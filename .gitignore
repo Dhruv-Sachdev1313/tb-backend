@@ -1,0 +1,104 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Flask specific
+instance/
+.webassets-cache
+
+# Migrations
+#migrations/
+
+# Pytest
+.cache
+
+# Environments
+.env
+.flaskenv
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Database
+*.sqlite3
+*.db
+
+# Logs
+logs/
+*.log
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Virtual environment
+venv/
+
+# Static file directories
+static/
+media/
+
+# Translations
+*.mo
+*.pot
+
+# Unit test / coverage reports
+coverage/
+
+# My PyDev specific configurations
+.project
+.pydevproject
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Environments
+.env/
+.venv/
+env.bak/
+venv.bak/
+
+*.DS_Store
+data/

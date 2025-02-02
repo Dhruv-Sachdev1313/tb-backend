@@ -1,0 +1,1 @@
+from app.models.ticks import Tick
