@@ -1,13 +1,12 @@
 import os
 import pandas as pd
-import psycopg2
 import zipfile
 from sqlalchemy import create_engine
 import dotenv
+from sqlalchemy.exc import IntegrityError
 
 dotenv.load_dotenv()
 
-# Create database connection
 engine = create_engine(url=os.getenv("SQLALCHEMY_DATABASE_URI", "postgresql://user:password@localhost/tick_data"))
 
 def extract_csv_from_zip(zip_path, extract_to="temp_data"):
@@ -28,7 +27,6 @@ def preprocess_csv(file_path):
     # Convert Date and Time to single timestamp column
     df["ts"] = pd.to_datetime(df["Date"] + " " + df["Time"], format="%d/%m/%Y %H:%M:%S", dayfirst=True)
 
-    # Drop old Date and Time columns
     df = df.drop(columns=["Date", "Time"])
 
     return df
@@ -38,14 +36,12 @@ def insert_into_db(df):
     if df.empty:
         return
 
-    # Each df is for a single ticker
-    # Insert ticker into tickers table
     tickers = df[["Ticker"]].drop_duplicates()
     tickers = tickers[["Ticker"]].rename(columns={"Ticker": "ticker"})
     tickers["exchange"] = "NSE"
     try:
         tickers.to_sql("tickers", engine, if_exists="append", index=False, method="multi")
-    except psycopg2.errors.IntegrityError:
+    except IntegrityError:
         pass
 
     # Insert data into ticker_data
@@ -62,7 +58,6 @@ def process_csv(path):
         df = preprocess_csv(os.path.join(path, csv_file))
         insert_into_db(df)
 
-# Example usage
 if __name__ == "__main__":
     paths = ['data/ticker/STOCK_TICK_04042022', 'data/ticker/STOCK_TICK_05042022']
     for path in paths:
