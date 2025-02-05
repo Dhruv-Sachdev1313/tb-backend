@@ -36,4 +36,4 @@ class PlaceOrder(Resource):
         
         # Simulate order placement
         order_id = uuid4()
-        return {"message": "Order placed successfully", "order_id": order_id}, 201
+        return {"message": "Order placed successfully", "order_id": str(order_id)}, 201
