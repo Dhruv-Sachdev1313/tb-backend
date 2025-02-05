@@ -24,8 +24,8 @@ class TickList(Resource):
     @ticks_ns.param("start_date", "Start date (YYYY-MM-DD)")
     @ticks_ns.param("end_date", "End date (YYYY-MM-DD)")
     @ticks_ns.param("interval", "Interval (1min or 5min)")
-    # @ticks_ns.response(200, "Success", [tick_model]) # Use response instead of marshal
-    @ticks_ns.marshal_list_with(tick_model)
+    @ticks_ns.response(200, "Success", [tick_model]) # Use response instead of marshal
+    # @ticks_ns.marshal_list_with(tick_model)
     @ticks_ns.response(400, "Bad Request", error_model)
     def get(self):
         """Fetch tick data with filters"""
@@ -38,10 +38,9 @@ class TickList(Resource):
         interval = request.args.get("interval")
 
         ticks = get_ticks(ticker, start_date, end_date, interval)
-        return ticks    
+        return [{"ticker": tick.ticker, "ts": datetime.strftime(tick.ts, format="%Y-%m-%d %H:%M:%S"), "ltp": tick.ltp, "ltq": tick.ltq} for tick in ticks]
 
 
-# ticker_list_model = ticks_ns.model("TickerList", fields.List(fields.String))
 @ticks_ns.route("/tickers_list")
 class TickerList(Resource):
     @ticks_ns.doc("list_tickers")
